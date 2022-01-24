@@ -1,0 +1,261 @@
+<%- include("header") -%>
+
+
+<form id="formProfileDataUpdate" class="invisible" action="/profileDataUpdate" method="post">
+
+  <input class="file2" type="file" id="file" name="avatar" onchange="PreviewImage2()" accept="image/*" style="display: none" />
+  <label class="upload" for="file"><img class="upload changeData deleteBckgroundImage" id="uploadPreview" name="no" src="<%=avatar%>" title="Click to change your avatar" />
+    <input type="txt" name="avatarPic2" id="avatarPic" style="display: none" value="<%=avatar%>"></input>
+  </label>
+
+  <div id="recallPassBg2">
+    <div id="x2">
+      <p onclick="closeWindow()">
+        ✖️
+      </p>
+    </div>
+
+    <div id="dataChange" class="">
+
+      <div class="myGrid" id="myGrid">
+
+        <p>Your e-mail: </p>
+        <input type="email" name="email" value="<%=email%>" placeholder="Add your e-mail address">
+
+        <h4>Your Password </h4>
+        <button type="button" name="button" onclick="show()">Change your password</button>
+
+      </div>
+
+      <div class="myGrid" id="changeP">
+        <p style="border:none"></p>
+        <div class="showPass">
+          <input type="password" name="oldpass" id="oldpass" value="" class="" placeholder="current password">
+          <img id="OP" onmousedown="showPassO()" onmouseup="hidePassO()" src="/images/eye.png" alt="">
+        </div>
+        <p style="border:none"></p>
+        <div class="showPass">
+
+          <input type="password" name="newpass" id="newpass" class="" value="" placeholder="new password" pattern="(?=.*\d)(?=.*?[~`!@#$%\^&*()\-_=+[\]{};:\x27.,\x22\\|/?><]).{8,}" title="Password must contain at least one number, one special character and min. 8 characters">
+          <img id="NP" onmousedown="showPassN()" onmouseup="hidePassN()" src="/images/eye.png" alt="">
+        </div>
+      </div>
+
+      <button type="submit" name="confirm" value="<%=userName%>">
+
+        Confirm</button>
+    </div>
+  </div>
+</form>
+
+
+<div class="">
+  <div class=" skos">
+    <img  onclick="openWindow()" id="userAvatar" src="<%=avatar%>" title="Click your avatar to edit your profile." />
+    <div class="box" id="heading">
+      <h1> <%=listTitle[number].name %> </h1>
+    </div>
+    <div class="box">
+      <%listTitle[number].items.forEach(function(element){%>
+      <form class="" action="/delete" method="post">
+        <div class="item">
+          <input type="checkbox" onchange="this.form.submit()" value="<%=element._id%>" name="checkbox">
+          <p><%=  element.name  %></p>
+        </div>
+        <input type="hidden" name="listName" value="<%=listTitle[number].name%>-<%=userName%>"></input>
+      </form>
+      <%});%>
+      <form class="item" action="/addItem" method="post">
+        <input type="text" name="newItemN" placeholder="New Item" autocomplete="off">
+        <button type="submit" name="newItem" value="<%=listTitle[number].name%>-<%=userName%>">+</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="listOflists">
+  <div id="stickout">
+
+    <div id="userNameRibbon">
+
+      <p id="ribboninput" name="currentUser">
+        <%=userName%></p>
+
+    </div>
+  </div>
+  <div class="lolParent">
+    <div class="item center init2">
+
+      <p class="init2"> <b>My Lists </b> </p>
+
+    </div>
+
+    <form id="chL" class="" action="/changeList" method="post">
+
+      <%  listTitle.forEach(function(element){%>
+
+      <div class="item center init1 griddd" onmouseover="changeBusket()" onmouseout="returnBusket()">
+        <button id="<%=element._id%>" class="listy" type="submit" value="<%=element._id%>-change" name="aktualnaLista"><%=  element.name  %></button>
+        <img class="delete-image" src="images/busket-LM.png" onclick="deleteList('<%=element._id%>')">
+      </div>
+
+      <%});%>
+      <input type="hidden" name="listName" value="<%=userName%>"></input>
+
+    </form>
+    <form class="" action="/addList" method="post">
+
+      <div id="fixed" class="item new center">
+        <input type="text" id="newListName" name="newList" placeholder="New List" autocomplete="off">
+        <button id="newListButton" type="submit" name="addlist" value="<%=userName%>" onmouseover="hoverButon()">+</button>
+      </div>
+
+
+
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var x = window.matchMedia("(max-width: 817px)");
+
+  function openWindow() {
+
+    document.getElementById("formProfileDataUpdate").classList.remove("invisible");
+
+  }
+
+  function closeWindow() {
+    document.getElementById("formProfileDataUpdate").classList.add("invisible");
+
+  }
+
+
+  function hoverButon() {
+    document.getElementById("newListName").classList.add("newList2");
+  }
+
+  function slidein(e) {
+    console.log(!e.target.id);
+    if (!e.target.id.includes("newList")) {
+      document.getElementById("newListName").classList.remove("newList2")
+    };
+  }
+
+  function deleteList(ID) {
+
+    console.log(ID)
+    document.getElementById(ID).setAttribute("value", ID + '-delete');
+    console.log(document.getElementById(ID).getAttribute("value"));
+    document.getElementById(ID).click();
+  };
+
+  function PreviewImage2() {
+
+    var path = (window.URL || window.webkitURL).createObjectURL(event.target.files[0]);
+    console.log('path', path);
+    //avatarName = document.getElementById("loginS").value
+
+
+    var file = document.getElementById("file").files[0];
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      console.log('Encoded Base 64 File String:', reader.result);
+      var pathNew = reader.result;
+      document.getElementById("avatarPic").setAttribute('value', pathNew);;
+    }
+
+    reader.readAsDataURL(file);
+
+    //  document.getElementById("file").setAttribute('src', path);
+
+
+    var oFReader = new FileReader();
+
+    oFReader.readAsDataURL(document.getElementById("file").files[0]);
+    document.getElementById("uploadPreview").setAttribute("name", "chosen");
+    oFReader.onload = function(oFREvent) {
+      document.getElementById("uploadPreview").src = oFREvent.target.result;
+
+
+    };
+    var z = document.getElementById("uploadPreview").name;
+    console.log("bbb" + z);
+  };
+
+  mediaListen(x);// Call listener function at run time
+  x.addListener(mediaListen) ;// Attach listener function on state changes
+
+  function show() {
+
+
+    if(document.getElementById("myGrid").style.getPropertyValue("transform")==="translate(0px, 1rem)"){
+
+      if(x.matches){
+        document.getElementById("myGrid").style.setProperty("transform", "translate(0, 35%)");
+      }else{
+        document.getElementById("myGrid").style.setProperty("transform", "translate(0, 50%)");
+      }
+
+      document.getElementById("changeP").style.setProperty("transform", "translate(0, -50%)");
+      document.getElementById("myGrid").style.setProperty("border-bottom", "solid 1px var(--border)");
+
+      document.getElementById("myGrid").style.setProperty("border-bottom-left-radius", "10px");
+      document.getElementById("myGrid").style.setProperty("border-bottom-right-radius", "10px");
+
+
+
+  }else{
+    document.getElementById("myGrid").style.setProperty("transform", "translate(0, 1rem)");
+    document.getElementById("changeP").style.setProperty("transform", "translate(0, -1rem)");
+    document.getElementById("myGrid").style.setProperty("border-bottom", "none");
+    document.getElementById("changeP").style.setProperty("transform", "translate(0, -3%)");
+    document.getElementById("myGrid").style.setProperty("border-bottom-left-radius", "0");
+    document.getElementById("myGrid").style.setProperty("border-bottom-right-radius", "0");
+
+
+
+  }
+
+
+  }
+
+  function mediaListen(x) {
+    if (x.matches) { // If media query matches
+      console.log("jestem tu");
+      document.querySelectorAll("#changeP>p")[0].classList.add("invisible");
+      document.querySelectorAll("#changeP>p")[1].classList.add("invisible");
+document.getElementById("myGrid").style.setProperty("transform", "translate(0, 35%)");
+
+    }else{
+      document.querySelectorAll("#changeP>p")[0].classList.remove("invisible");
+      document.querySelectorAll("#changeP>p")[1].classList.remove("invisible");
+
+    }
+  }
+
+  function showPassO() {
+    document.getElementById("oldpass").setAttribute("type", "text");
+  }
+
+  function showPassN() {
+    document.getElementById("newpass").setAttribute("type", "text");
+  }
+
+
+  function hidePassO() {
+    document.getElementById("oldpass").setAttribute("type", "password");
+  }
+
+  function hidePassN() {
+    document.getElementById("newpass").setAttribute("type", "password");
+  }
+</script>
+
+
+
+<%- include("footer") -%>

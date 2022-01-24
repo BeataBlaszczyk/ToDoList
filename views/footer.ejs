@@ -1,0 +1,128 @@
+
+
+
+
+</body>
+<footer>
+  Copyright 2021 by Beata Błaszczyk
+</footer>
+
+<script type="text/javascript">
+
+
+
+
+//check setCookie
+    (function checkCookie(){
+
+
+
+      var currentMode = document.cookie.split('; ').find(row => row.startsWith('mode'))?.split('=')[1];
+
+        console.log("mode: " + currentMode);
+
+      if (currentMode === "d") {
+      darkModeOn();
+    } else  {
+      lightModeOn();
+    }
+
+    })();
+
+
+function changeBusket(){
+  console.log("hover")
+var kosze = document.querySelectorAll(" .item.center.init1.griddd:hover > .delete-image")
+kosze.forEach(function(element){element.setAttribute("src", "images/busket-LM.png")})
+
+}
+
+function returnBusket(num){
+
+  var currentMode = document.cookie.split('; ').find(row => row.startsWith('mode'))?.split('=')[1];
+
+  if (currentMode==="d"){
+    var kosze = document.querySelectorAll(".delete-image");
+    kosze.forEach(function(element){element.setAttribute("src", "images/busket-DM.png")})
+
+  }
+
+}
+
+
+
+function changeMode(){
+
+//var kosze = document.querySelectorAll(".delete-image");
+//console.log(kosze + " typ: " + typeof(kosze))
+  if (getComputedStyle(document.documentElement).getPropertyValue('--border')==="black"){
+    var currentMode = "d";
+    document.cookie = "mode="+currentMode;
+    console.log("cur mode - " + currentMode + document.cookie)
+darkModeOn();
+  }else  {
+    var currentMode = "l";
+    document.cookie = "mode="+currentMode;
+      console.log("cur mode" + currentMode + document.cookie)
+lightModeOn();
+  }
+
+
+
+}
+
+
+
+function lightModeOn(){
+  var kosze = document.querySelectorAll(".delete-image");
+  document.querySelector(':root').style.setProperty('--border', "black");
+  document.querySelector(':root').style.setProperty('--background1', "#F2DDC1");
+  document.querySelector(':root').style.setProperty('--background2', "#E2C2B9");
+  document.querySelector(':root').style.setProperty('--txt', "black");
+  document.querySelector(':root').style.setProperty('--avatar', "#99A799");
+  document.querySelector(':root').style.setProperty('--txt2', "black");
+  document.querySelector(':root').style.setProperty('--menu', "#99A799");
+  document.querySelector(':root').style.setProperty('--titleColor', "black");
+  document.getElementById("deer")?.setAttribute("src", "/images/deer-back3.png")
+  document.getElementById("darkModeslide").classList.remove("darkModeOnBtn");
+  document.getElementsByClassName("darkMode dark")[0].classList.remove("darkModeOnSlide");
+  document.getElementsByTagName("button")[1]?.classList.remove("borderDarkMode");
+document.getElementsByTagName("button")[0]?.classList.remove("borderDarkMode");
+document.getElementsByTagName("h1")[0]?.classList.remove("borderDarkMode");
+document.getElementsByTagName("button")[0]?.classList.remove("greenPlus");
+document.getElementsByTagName("button")[1]?.classList.remove("greenPlus");
+kosze.forEach(function(element){element.setAttribute("src", "images/busket-LM.png")});
+document.getElementById("OP").setAttribute("src", "/images/eye.png");
+document.getElementById("NP").setAttribute("src", "/images/eye.png");
+}
+
+function darkModeOn(){
+  var kosze = document.querySelectorAll(".delete-image");
+  document.querySelector(':root').style.setProperty('--border', "green");
+  document.querySelector(':root').style.setProperty('--background1', "black");
+  document.querySelector(':root').style.setProperty('--background2', "#393E46");
+  document.querySelector(':root').style.setProperty('--txt', "green");
+  document.querySelector(':root').style.setProperty('--txt2', "white");
+  document.querySelector(':root').style.setProperty('--menu', "black");
+  document.querySelector(':root').style.setProperty('--avatar', "green");
+  document.querySelector(':root').style.setProperty('--titleColor', "green");
+  document.getElementById("deer")?.setAttribute("src", "/images/deer-back3green.png");
+  document.getElementById("darkModeslide").classList.add("darkModeOnBtn");
+  document.getElementsByClassName("darkMode dark")[0].classList.add("darkModeOnSlide");
+  document.getElementsByTagName("button")[1]?.classList.add("borderDarkMode");
+document.getElementsByTagName("button")[0]?.classList.add("borderDarkMode");
+document.getElementsByTagName("h1")[0]?.classList.add("borderDarkMode");
+document.getElementsByTagName("button")[0]?.classList.add("greenPlus");
+document.getElementsByTagName("button")[1]?.classList.add("greenPlus");
+kosze.forEach(function(element){element.setAttribute("src", "images/busket-DM.png")});
+document.getElementById("OP").setAttribute("src", "/images/eye2.png");
+document.getElementById("NP").setAttribute("src", "/images/eye2.png");
+}
+
+
+
+</script>
+
+
+
+</html>
